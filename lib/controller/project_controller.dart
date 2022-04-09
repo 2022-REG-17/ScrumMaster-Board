@@ -20,7 +20,7 @@ class ProjectController extends GetxController {
   TextEditingController dateEditingController;
   TextEditingController adminEditingController;
   TextEditingController memberEditingController;
-  
+
   var isProcessing = false.obs;
 
   @override
@@ -28,12 +28,11 @@ class ProjectController extends GetxController {
     super.onInit();
     getMoreProject(page);
     paginateProject();
-     // To Save  Task
+    // To Save  Task
     pronameEditingController = TextEditingController();
     dateEditingController = TextEditingController();
     adminEditingController = TextEditingController();
     memberEditingController = TextEditingController();
-    
   }
 
   Future<Project> getProjects(int page, int size) {
@@ -82,18 +81,16 @@ class ProjectController extends GetxController {
     try {
       isProcessing(true);
       ProjectService.updateProject(data, id).then((resp) {
-        if(resp=="success") {
+        if (resp == "success") {
           clearTextEditingControllers();
           isProcessing(false);
 
           showSnackBar("Edit Project", "Project Updated", Colors.green);
           ProjectTask.clear();
           refreshList();
+        } else {
+          showSnackBar("Edit Project", "Project not Updated", Colors.red);
         }
-        else
-          {
-            showSnackBar("Edit Project", "Project not Updated", Colors.red);
-          }
       }, onError: (err) {
         isProcessing(false);
         showSnackBar("Error", err.toString(), Colors.red);
@@ -103,7 +100,7 @@ class ProjectController extends GetxController {
       showSnackBar("Exception", exception.toString(), Colors.red);
     }
   }
-  
+
   // Get More data
   void getMoreProject(var page) {
     try {
@@ -127,7 +124,7 @@ class ProjectController extends GetxController {
   }
 
   //delete data
-  void deleteProject(String id, Set<String> set) {
+  void deleteProject(String id) {
     try {
       isProcessing(true);
       ProjectService().deleteProject(id).then((resp) {
@@ -162,13 +159,15 @@ class ProjectController extends GetxController {
     page = 0;
     getProjects(page, size);
   }
+
   // clear the controllers
   void clearTextEditingControllers() {
     pronameEditingController.clear();
     dateEditingController.clear();
     adminEditingController.clear();
-    memberEditingController.clear(); 
+    memberEditingController.clear();
   }
+
   @override
   void onClose() {
     super.onClose();
@@ -176,6 +175,6 @@ class ProjectController extends GetxController {
     pronameEditingController.dispose();
     dateEditingController.dispose();
     adminEditingController.dispose();
-    memberEditingController.dispose();   
+    memberEditingController.dispose();
   }
 }
