@@ -5,6 +5,7 @@ import 'package:ctse_frontend/colors/colors.dart';
 import 'package:ctse_frontend/onboarding/onboarding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_greetings/flutter_greetings.dart';
+import 'package:get/get.dart';
 import 'View/ProjectPage.dart';
 import 'View/SprintTaskPage.dart';
 import 'View/TicketPage.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Scrum Board',
       theme: ThemeData(
@@ -82,35 +83,37 @@ class _HomePageState extends State<HomePage> {
               color: colors.green1,
               child: Container(
                 margin: EdgeInsets.all(10.0),
-                child: Column(
-                  children: [
-                    ListTile(
-                      title: Text(
-                        'Projects',
-                        style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: colors.bgColor),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      ListTile(
+                        title: Text(
+                          'Projects',
+                          style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: colors.bgColor),
+                        ),
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 230, top: 80),
-                      child: IconButton(
-                        icon: const Icon(Icons.arrow_forward_outlined),
-                        color: Colors.teal,
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const ProjectPage(
-                                title: 'Projects',
+                      Container(
+                        margin: EdgeInsets.only(left: 230, top: 80),
+                        child: IconButton(
+                          icon: const Icon(Icons.arrow_forward_outlined),
+                          color: Colors.teal,
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ProjectPage(
+                                  title: 'Projects',
+                                ),
                               ),
-                            ),
-                          );
-                        },
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             )),

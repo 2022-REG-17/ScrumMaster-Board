@@ -254,20 +254,19 @@ class _ProjectPageState extends State<ProjectPage> {
     );
   }
 
-displayDeleteDialog(String id) {
-  Get.defaultDialog(
-    title: "Delete Project",
-    titleStyle: TextStyle(fontSize: 20),
-    middleText: 'Are you sure to delete project ?',
-    textCancel: "Cancel",
-    textConfirm: "Confirm",
-    confirmTextColor: Colors.white,
-    onCancel: () {},
-    onConfirm: () {
-      projectController.deleteProject({'_id':'id'});
+  displayDeleteDialog(String id) {
+    Get.defaultDialog(
+      title: "Delete Project",
+      titleStyle: TextStyle(fontSize: 20),
+      middleText: 'Are you sure to delete project ?',
+      textCancel: "Cancel",
+      textConfirm: "Confirm",
+      confirmTextColor: Colors.white,
+      onCancel: () {},
+      onConfirm: () {
+        projectController.deleteProject(id);
         Get.back();
-    },
-  );
+      },
+    );
+  }
 }
-}
-

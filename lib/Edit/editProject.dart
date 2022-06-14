@@ -8,24 +8,25 @@ import 'package:intl/intl.dart';
 class Edit_project extends StatefulWidget {
   final String id;
   final String name;
-final String createdDate;
-final String admin;
-final String member;
-Edit_project({this.id, this.name, this.createdDate, this.admin, this.member});
+  final String createdDate;
+  final String admin;
+  final String member;
+  Edit_project({this.id, this.name, this.createdDate, this.admin, this.member});
   @override
   State<Edit_project> createState() => _Edit_projectState();
 }
 
 // ignore: camel_case_types
 class _Edit_projectState extends State<Edit_project> {
+  ProjectController projectController = Get.put(ProjectController());
 
-ProjectController projectController = Get.put(ProjectController());
-
- @override
+  @override
   void initState() {
-    projectController.dateEditingController.text = ""; //set the initial value of text field
+    projectController.dateEditingController.text =
+        ""; //set the initial value of text field
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     var index;
@@ -65,7 +66,7 @@ ProjectController projectController = Get.put(ProjectController());
                   new TextFormField(
                     cursorColor: Colors.white,
                     controller: projectController.pronameEditingController,
-                    decoration: new InputDecoration( 
+                    decoration: new InputDecoration(
                       hintText: "",
                       hintStyle: TextStyle(color: Colors.black),
                       fillColor: Colors.white,
@@ -79,7 +80,6 @@ ProjectController projectController = Get.put(ProjectController());
                     style: new TextStyle(
                       fontFamily: "Poppins",
                     ),
-                    
                   ),
                   SizedBox(
                     height: 30,
@@ -95,37 +95,44 @@ ProjectController projectController = Get.put(ProjectController());
                     height: 10,
                   ),
                   TextField(
-                controller: projectController.dateEditingController, //editing controller of this TextField
-                decoration: InputDecoration( 
-                  border: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(5.0),
-                    borderSide: new BorderSide(),
-                  ),
-                   icon: Icon(Icons.calendar_today), //icon of text field
-                   hintText: "",
+                    controller: projectController
+                        .dateEditingController, //editing controller of this TextField
+                    decoration: InputDecoration(
+                      border: new OutlineInputBorder(
+                        borderRadius: new BorderRadius.circular(5.0),
+                        borderSide: new BorderSide(),
+                      ),
+                      icon: Icon(Icons.calendar_today), //icon of text field
+                      hintText: "",
                       hintStyle: TextStyle(color: Colors.black),
-                ),
-                readOnly: true,  //set it true, so that user will not able to edit text
-                onTap: () async {
-                  DateTime pickedDate = await showDatePicker(
-                      context: context, initialDate: DateTime.now(),
-                      firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
-                      lastDate: DateTime(2101)
-                  ); 
-                  if(pickedDate != null ){
-                      print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
-                      String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate); 
-                      print(formattedDate); //formatted date output using intl package =>  2021-03-16
+                    ),
+                    readOnly:
+                        true, //set it true, so that user will not able to edit text
+                    onTap: () async {
+                      DateTime pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(
+                              2000), //DateTime.now() - not to allow to choose before today.
+                          lastDate: DateTime(2101));
+                      if (pickedDate != null) {
+                        print(
+                            pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                        String formattedDate =
+                            DateFormat('yyyy-MM-dd').format(pickedDate);
+                        print(
+                            formattedDate); //formatted date output using intl package =>  2021-03-16
                         //you can implement different kind of Date Format here according to your requirement
 
-                      setState(() {
-                         projectController.dateEditingController.text = formattedDate; //set output date to TextField value. 
-                      });
-                  }else{
-                      print("Date is not selected");
-                  }
-                },
-             ),
+                        setState(() {
+                          projectController.dateEditingController.text =
+                              formattedDate; //set output date to TextField value.
+                        });
+                      } else {
+                        print("Date is not selected");
+                      }
+                    },
+                  ),
                   SizedBox(
                     height: 30,
                   ),
@@ -195,33 +202,30 @@ ProjectController projectController = Get.put(ProjectController());
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Align(
-                    alignment: Alignment.bottomCenter,
-                    // ignore: deprecated_member_use
-                    child:RaisedButton( 
-                      color: Colors.teal,
-                            onPressed: () async {
-                              if(projectController.isProcessing.value == false) {
-                                updateProject(
-                                  "624f4663f7d92662b123c924",
-                                  projectController.pronameEditingController.text,
-                                  projectController.dateEditingController.text,
-                                  projectController.adminEditingController.text,
-                                  projectController.memberEditingController.text,
-                                );
-                              }
-                            },
-                            child: Text(
-                              projectController.isProcessing.value == true
-                                  ? 'Processing'
-                                  : 'Update',
-                              style: TextStyle(
-                                  fontFamily: "Poppins",
-                                  color: Colors.black,
-                                  fontSize: 18),
-                            ),
+                        alignment: Alignment.bottomCenter,
+                        // ignore: deprecated_member_use
+                        child: RaisedButton(
+                          color: Colors.teal,
+                          onPressed: () async {
+                            updateProject(
+                              "624f4663f7d92662b123c924", //GET THE ID
+                              projectController.pronameEditingController.text,
+                              projectController.dateEditingController.text,
+                              projectController.adminEditingController.text,
+                              projectController.memberEditingController.text,
+                            );
+                          },
+                          child: Text(
+                            projectController.isProcessing.value == true
+                                ? 'Processing'
+                                : 'Update',
+                            style: TextStyle(
+                                fontFamily: "Poppins",
+                                color: Colors.black,
+                                fontSize: 18),
                           ),
-                       
-                  ),
+                        ),
+                      ),
                       SizedBox(width: 10),
                       Align(
                         alignment: Alignment.bottomCenter,
@@ -250,15 +254,16 @@ ProjectController projectController = Get.put(ProjectController());
               )),
         ));
   }
+
   void updateProject(
       String id, String name, String createdDate, String admin, String member) {
     projectController.updateProject({
-      "_id": "624f4663f7d92662b123c924",
-    "name": "CTSE",
-    "createdDate": "2022-04-08",
-    "admin": "kishosiva13@gmail.com",
-    "member": "Souji@gmail.com"
+      "_id": id,
+      "name": name,
+      "createdDate": createdDate,
+      "admin": admin,
+      "member": member
     }, id);
-    Get.back();
+    //Get.back();
   }
 }

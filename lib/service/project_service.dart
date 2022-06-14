@@ -13,7 +13,7 @@ class ProjectService extends GetConnect {
 
     try {
       final response = await client.get(
-        Uri.parse("http://192.168.8.103:8080/api/v1/projects?page=" +
+        Uri.parse("http://192.168.8.104:8080/api/v1/projects?page=" +
             page.toString() +
             "&size=" +
             size.toString() +
@@ -35,65 +35,55 @@ class ProjectService extends GetConnect {
 
   //Save Data
   Future<String> saveProject(Map data) async {
-    try
-    {
-      final response = await post(
-          "http://192.168.8.103:8080/api/v1/projects",data);
-          
+    try {
+      final response =
+          await post("http://192.168.8.104:8080/api/v1/projects", data);
+
       if (response.status.hasError) {
         return Future.error(response.statusText);
       } else {
-        return  response.body['result'];
+        return response.body['result'];
       }
-    }
-    catch(exception)
-    {
+    } catch (exception) {
       return Future.error(exception.toString());
     }
-
   }
+
 //update
   static Future<Project> updateProject(Map data, String id) async {
     Project result;
 
-    try
-    {
+    try {
       final response = await client.put(
-        Uri.parse(
-          "http://192.168.8.103:8080/api/v1/projects/`$id`"),
+          Uri.parse("http://192.168.8.104:8080/api/v1/projects/$id"),
           headers: {
-          HttpHeaders.contentTypeHeader: "application/json",
-        },
-        body: json.encode(data)
-        );
+            HttpHeaders.contentTypeHeader: "application/json",
+          },
+          body: json.encode(data));
       if (response.statusCode == 200) {
         Project projectFromJson3 = projectFromJson(response.body);
         return projectFromJson3;
-      } else{
+      } else {
         print(response);
       }
     } catch (e) {
       log(e.toString());
     }
     return result;
-
   }
 
   //delete
   Future<String> deleteProject(String id) async {
-    try{
-      final response = await delete(
-          "http://192.168.8.103:8080/api/v1/projects/$id");
+    try {
+      final response =
+          await delete("http://192.168.8.104:8080/api/v1/projects/$id");
       if (response.status.hasError) {
         return Future.error(response.statusText);
       } else {
         return response.body['result'];
       }
-    }
-    catch(exception)
-    {
+    } catch (exception) {
       return Future.error(exception.toString());
     }
-
   }
 }
